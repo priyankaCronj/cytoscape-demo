@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@keyframes move-dot {
+  0% { transform: translate(0%, 0%); }
+  100% { transform: translate(100%, 0%); }
+}
+
+.data-flow-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ff6347;
+  animation: move-dot 1s linear infinite;
+}
+
