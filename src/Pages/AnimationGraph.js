@@ -13,7 +13,7 @@ export default function AnimationGraph() {
         height: "100%",
         position: "absolute",
         left: 0,
-        top: 0,
+        top: 50,
       }}
       cy={(cy) => cy.style(cyStylesheet)}
     />

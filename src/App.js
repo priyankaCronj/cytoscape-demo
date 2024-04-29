@@ -7,11 +7,13 @@ import ExportPDF from "./Pages/ExportPDF";
 import AlertGraph from "./Pages/ZoomFeature";
 import MenuGraph from "./Pages/ClickPopup";
 import CytoscapeGraph2 from "./Pages/StrokeLine";
+import Navbar from "./Navbar";
 
 function App() {
   return (
     <div>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<AnimationGraph />} />
           <Route path="/sheet" element={<StyleSheetGraph />} />
