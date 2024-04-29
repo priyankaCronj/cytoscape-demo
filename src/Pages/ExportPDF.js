@@ -31,8 +31,16 @@ function ExportPDF() {
       type: "image/svg+xml;charset=utf-8",
     });
     const url = URL.createObjectURL(blob);
-    window.open(url);
+  
+    // Create a temporary anchor element
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "graph.svg"; // Set the file name
+    document.body.appendChild(a); // Append the anchor to the body
+    a.click(); // Simulate a click event to download the SVG file
+    document.body.removeChild(a); // Remove the anchor from the body
   };
+  
 
 //   const exportPdf = async () => {
 //     const cy = cyRef.current;
@@ -59,38 +67,67 @@ function ExportPDF() {
 //   };
 
 const exportPdf = async () => {
+  const cy = cyRef.current;
+  const svgContent = cy.svg({ full: true });
+
+  // Create a canvas to convert SVG to PNG
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = cy.width();
+  canvas.height = cy.height();
+
+  const v = Canvg.fromString(ctx, svgContent);
+  await v.render();
+
+  const image = canvas.toDataURL("image/png");
+
+  // Convert dimensions and positions from pixels to points
+  const widthPt = cy.width() * 0.50; // Convert width from pixels to points
+  const heightPt = cy.height() * 0.50; // Convert height from pixels to points
+
+  const padding = 20; // Set padding value in points
+
+  const pdf = new jsPDF({
+    orientation: "landscape",
+    unit: "pt",
+    format: [widthPt + padding * 2, heightPt + padding * 2], // Add padding to the width and height
+  });
+
+  // Add the image to the PDF with adjusted dimensions and padding
+  pdf.addImage(image, "PNG", padding, padding, widthPt, heightPt, "", "FAST");
+
+  pdf.save("graph.pdf");
+};
+
+  
+  const exportPng = () => {
     const cy = cyRef.current;
-    const svgContent = cy.svg({ full: true });
   
-    // Create a canvas to convert SVG to PNG
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = cy.width();
-    canvas.height = cy.height();
+    // Get the base64-encoded PNG image with white background
+    const pngImage = cy.png({ output: "base64", full: true, bg: "white" });
   
-    const v = Canvg.fromString(ctx, svgContent);
-    await v.render();
+    // Convert the base64-encoded PNG to a Blob
+    const binary = atob(pngImage);
+    const array = [];
+    for (let i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    const blob = new Blob([new Uint8Array(array)], { type: "image/png" });
   
-    const image = canvas.toDataURL("image/png");
+    // Create a temporary URL for the Blob
+    const url = URL.createObjectURL(blob);
   
-    // Convert dimensions and positions from pixels to points
-    const widthPt = cy.width() * 0.75; // Convert width from pixels to points
-    const heightPt = cy.height() * 0.75; // Convert height from pixels to points
-    const scale = 0.75; // Adjust scale factor as needed
-  
-    const pdf = new jsPDF({
-      orientation: "landscape",
-      unit: "pt",
-      format: [widthPt, heightPt],
-    });
-  
-    // Add the image to the PDF with adjusted dimensions
-    pdf.addImage(image, "PNG", 0, 0, widthPt, heightPt, "", "FAST");
-  
-    pdf.save("graph.pdf");
+    // Create a temporary anchor element
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "graph.png"; // Set the file name
+    document.body.appendChild(a); // Append the anchor to the body
+    a.click(); // Simulate a click event to download the PNG file
+    document.body.removeChild(a); // Remove the anchor from the body
   };
   
-
+  
+  
   return (
     <div>
       <CytoscapeComponent
@@ -103,6 +140,8 @@ const exportPdf = async () => {
       />
       <button onClick={exportSvg}>Export as SVG</button>
       <button onClick={exportPdf}>Export as PDF</button>
+      <button onClick={exportPng}>Export as PNG</button> {/* New button for PNG export */}
+
     </div>
   );
 }
