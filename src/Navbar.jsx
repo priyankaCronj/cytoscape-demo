@@ -34,7 +34,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div>
-          <Link style={{ color: "#fff", textDecoration: "none" }} to="/menu">
+          <Link style={{ color: "#fff", textDecoration: "none" }} to="/click">
             Click Popup
           </Link>
         </div>

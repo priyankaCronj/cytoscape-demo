@@ -19,7 +19,7 @@ function App() {
           <Route path="/sheet" element={<StyleSheetGraph />} />
           <Route path="/pdf" element={<ExportPDF />} />
           <Route path="/zoom" element={<AlertGraph />} />
-          <Route path="/menu" element={<MenuGraph />} />
+          <Route path="/click" element={<MenuGraph />} />
           <Route path="/draw" element={<CytoscapeGraph2 />} />
         </Routes>
       </BrowserRouter>
