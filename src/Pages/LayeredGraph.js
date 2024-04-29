@@ -5,16 +5,17 @@ import { elements } from "../Data/data";
 
 export default function LayeredGraph() {
   const cyStylesheet = sbgnStylesheet(cytoscape);
-  
+
   const handleCyInit = (cy) => {
     cy.style(cyStylesheet);
-    
+
     // Enable zooming
     cy.zoomingEnabled(true);
-    
+
     // Set initial zoom level (optional)
-    cy.zoom(0.6); // Set the initial zoom level to 0.5 (50% zoom)
-    cy.fit();
+    // cy.zoom(0.5); // Set the initial zoom level to 0.5 (50% zoom)
+
+    cy.fit(cy.elements(), 50);
   };
 
   return (
