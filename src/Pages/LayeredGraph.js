@@ -3,8 +3,20 @@ import CytoscapeComponent from "react-cytoscapejs";
 import sbgnStylesheet from "cytoscape-sbgn-stylesheet";
 import { elements } from "../Data/data";
 
-export default function AnimationGraph() {
+export default function LayeredGraph() {
   const cyStylesheet = sbgnStylesheet(cytoscape);
+  
+  const handleCyInit = (cy) => {
+    cy.style(cyStylesheet);
+    
+    // Enable zooming
+    cy.zoomingEnabled(true);
+    
+    // Set initial zoom level (optional)
+    cy.zoom(0.6); // Set the initial zoom level to 0.5 (50% zoom)
+    cy.fit();
+  };
+
   return (
     <CytoscapeComponent
       elements={CytoscapeComponent.normalizeElements(elements)}
@@ -15,7 +27,7 @@ export default function AnimationGraph() {
         left: 0,
         top: 50,
       }}
-      cy={(cy) => cy.style(cyStylesheet)}
+      cy={handleCyInit}
     />
   );
 }

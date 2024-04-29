@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AnimationGraph from "./Pages/AnimationGraph";
+import LayeredGraph from "./Pages/LayeredGraph";
 import StyleSheetGraph from "./Pages/StyleSheetGraph";
 import ExportPDF from "./Pages/ExportPDF";
 import AlertGraph from "./Pages/ZoomFeature";
@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<AnimationGraph />} />
+          <Route path="/" element={<LayeredGraph />} />
           <Route path="/sheet" element={<StyleSheetGraph />} />
           <Route path="/pdf" element={<ExportPDF />} />
           <Route path="/zoom" element={<AlertGraph />} />
